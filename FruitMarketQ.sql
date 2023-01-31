@@ -46,36 +46,43 @@ VALUES
 (4002, 'Simonzola Blue Cheese', 27.65, '270 g', 4, 'SUPP0004')
 ;
 
--- SELECT ProductID, ProductName, CONCAT('R', Price) AS Price, Weight, Stock FROM Products;
-
+SELECT ProductID, ProductName, CONCAT('R', Price) AS Price, Weight, Stock FROM Products;
 
 -- 1.8
---  SELECT * FROM Products ORDER BY Price DESC;
---  SELECT * FROM Products WHERE Stock < 20;
 
 SELECT p.ProductID, p.ProductName, p.Price, p.Weight, p.Stock,
 s.ProductCategory
 FROM Products p
 INNER JOIN Suppliers s
-USING(SupplierID);
-
-
+USING(SupplierID)
+WHERE p.Stock < 20
+ORDER BY p.Price DESC;
 
 -- 1.9
 
--- ALTER TABLE Products
--- ADD TotalPrice DECIMAL(4,4);
-
--- CREATE VIEW Q9 AS 
--- SELECT ProductID, ProductName, rounded(Price, 2), Weight, Stock
--- FROM Products
--- WHERE TotalPrice=(Price * Stock) + (15/100);
--- SELECT * FROM Q9;
+CREATE VIEW Q9 AS
+SELECT p.ProductID, p.ProductName, p.Price, p.Weight, p.Stock,
+s.ProductCategory, round((p.Price * p.Stock * 1.15), 4) AS TotalPrice
+FROM Products p
+INNER JOIN Suppliers s
+USING(SupplierID)
+WHERE p.Stock < 20
+ORDER BY p.Price DESC;
+SELECT * FROM Q9;
 
 -- 1.10
 
-CREATE USER 'deno_R'@'localhost' IDENTIFIED BY 'deno_R';
-GRANT INSERT ON FruitMarket.* TO 'deno_r'@'localhost';
-FLUSH PRIVILEGES;
+-- CREATE USER 'deno_R'@'localhost' IDENTIFIED BY 'deno_R';
+-- GRANT INSERT ON FruitMarket.* TO 'deno_r'@'localhost';
+-- FLUSH PRIVILEGES;
 
 -- 1.11
+-- mysql -u deno_r -p 
+-- SHOW TABLES;
+
+-- 1.12
+-- INSERT INTO Suppliers VALUES('SUPP006', 'Fruit&Veg', 'Abdu', '0216965111', 'Nuts'); 
+
+
+
+

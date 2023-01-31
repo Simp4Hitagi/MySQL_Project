@@ -107,6 +107,10 @@ SELECT * FROM Q14;
 -- 1.16
 
 -- DROP VIEW IF EXISTS Q1_16;
+
+-- INSERT INTO Suppliers(CompanyName, ContactNo)VALUES('Fruit City', 0115062089);
+-- INSERT INTO Products(ProductName, Price)VALUES('Pink Lady Apples', 18.95);
+
 CREATE VIEW Q1_16 AS
 SELECT s.CompanyName, s.ContactNo, p.ProductName, p.Price
 FROM Suppliers s
@@ -114,5 +118,4 @@ INNER JOIN Products p
 USING(SupplierID);
 SELECT * FROM Q1_16;
 
-INSERT INTO Suppliers(CompnayName, ContactNo)VALUES('Fruit City', 0115062089);
-INSERT INTO Products(ProductName, Price)VALUES('Pink Lady Apples', 18.95);
+

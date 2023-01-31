@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS FruitMarket;
 -- 1.1
 CREATE DATABASE FruitMarket;
 USE FruitMarket;
+
 -- 1.2
 CREATE TABLE Suppliers(SupplierID VARCHAR(10) NOT NULL PRIMARY KEY,
 CompanyName VARCHAR(30) NOT NULL, 
@@ -9,7 +10,7 @@ ContactPerson VARCHAR(30) NOT NULL,
 ContactNo VARCHAR(13) NOT NULL DEFAULT '000-000-0000',
 ProductCategory VARCHAR(55) NOT NULL
 );
--- DESC Suppliers;
+
 -- 1.3
 CREATE TABLE Products(ProductID INT NOT NULL PRIMARY KEY, 
 ProductName VARCHAR(30), 
@@ -18,19 +19,14 @@ Weight VARCHAR(10),
 Stock INT,
 SupplierID VARCHAR(10), FOREIGN KEY(SupplierID) REFERENCES Suppliers(SupplierID)
 );
-
--- DESC Products;
-
 -- 1.6
 INSERT INTO Suppliers VALUES('SUPP0001', 'Fruit City', 'Themba', '0115062089', 'Fruit'), 
 ('SUPP0002', 'Vegan Veggie Xpress', 'Chinyere', '0137228936', 'Vegetables'),
 ('SUPP0003', 'The Nut House', 'Sam', '0216965133', 'Nuts'),
 ('SUPP0004', 'The Lazy Cow', 'Angelo', '0216964157', 'Dairy')
 ;
--- SELECT * FROM Suppliers;
 
 -- 1.7
--- DROP TABLE IF EXISTS Products;
 INSERT INTO Products(ProductID, ProductName, Price, Weight, Stock, SupplierID)
 VALUES
 -- Fruit City
@@ -50,30 +46,36 @@ VALUES
 (4002, 'Simonzola Blue Cheese', 27.65, '270 g', 4, 'SUPP0004')
 ;
 
-SELECT ProductID, ProductName, CONCAT('R', Price) AS Price, Weight, Stock FROM Products;
+-- SELECT ProductID, ProductName, CONCAT('R', Price) AS Price, Weight, Stock FROM Products;
 
 
 -- 1.8
--- SELECT * FROM Products ORDER BY Price DESC;
--- SELECT * FROM Products WHERE Stock < 20;
-
--- SELECT p.ProductID, p.ProductName, p.Price, p.Weight, p.Stock, 
--- s.ProductCategory
--- FROM Products p
--- RIGHT JOIN Suppliers s
--- USING(SupplierID);
 --  SELECT * FROM Products ORDER BY Price DESC;
 --  SELECT * FROM Products WHERE Stock < 20;
 
+SELECT p.ProductID, p.ProductName, p.Price, p.Weight, p.Stock,
+s.ProductCategory
+FROM Products p
+INNER JOIN Suppliers s
+USING(SupplierID);
+
+
+
 -- 1.9
 
--- WHERE TotalPrice = (Price * Stock) + 15%
-
 -- ALTER TABLE Products
--- ADD TotalPrice INT;
+-- ADD TotalPrice DECIMAL(4,4);
 
 -- CREATE VIEW Q9 AS 
--- SELECT ProductID, ProductName, Price, Weight, Stock
+-- SELECT ProductID, ProductName, rounded(Price, 2), Weight, Stock
 -- FROM Products
--- WHERE (Price * Stock) + (100/15) = TotalPrice;
--- SELECT * FROM Products;
+-- WHERE TotalPrice=(Price * Stock) + (15/100);
+-- SELECT * FROM Q9;
+
+-- 1.10
+
+CREATE USER 'deno_R'@'localhost' IDENTIFIED BY 'deno_R';
+GRANT INSERT ON FruitMarket.* TO 'deno_r'@'localhost';
+FLUSH PRIVILEGES;
+
+-- 1.11

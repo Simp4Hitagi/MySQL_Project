@@ -113,3 +113,6 @@ FROM Suppliers s
 INNER JOIN Products p
 USING(SupplierID);
 SELECT * FROM Q1_16;
+
+INSERT INTO Suppliers(CompnayName, ContactNo)VALUES('Fruit City', 0115062089);
+INSERT INTO Products(ProductName, Price)VALUES('Pink Lady Apples', 18.95);

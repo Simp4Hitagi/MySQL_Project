@@ -19,6 +19,7 @@ Weight VARCHAR(10),
 Stock INT,
 SupplierID VARCHAR(10), FOREIGN KEY(SupplierID) REFERENCES Suppliers(SupplierID)
 );
+
 -- 1.6
 INSERT INTO Suppliers VALUES('SUPP0001', 'Fruit City', 'Themba', '0115062089', 'Fruit'), 
 ('SUPP0002', 'Vegan Veggie Xpress', 'Chinyere', '0137228936', 'Vegetables'),
@@ -72,17 +73,29 @@ SELECT * FROM Q9;
 
 -- 1.10
 
--- CREATE USER 'deno_R'@'localhost' IDENTIFIED BY 'deno_R';
--- GRANT INSERT ON FruitMarket.* TO 'deno_r'@'localhost';
--- FLUSH PRIVILEGES;
+CREATE USER 'Deno_r'@'localhost' IDENTIFIED BY '12345';
+GRANT INSERT, CREATE, SELECT, UPDATE ON FruitMarket.Suppliers TO 'Deno_r'@'localhost';
+FLUSH PRIVILEGES;
 
 -- 1.11
 -- mysql -u deno_r -p 
+-- USE FruitMarket;
 -- SHOW TABLES;
 
 -- 1.12
--- INSERT INTO Suppliers VALUES('SUPP006', 'Fruit&Veg', 'Abdu', '0216965111', 'Nuts'); 
+INSERT INTO Suppliers VALUES('SUPP006', 'Fruit&Veg', 'Abdu', '0216965111', 'Nuts'); 
 
+-- 1.14
 
+CREATE VIEW Q14 AS
+SELECT User, Host
+FROM mysql.user
+WHERE User IN ('Deno_R', 'root');
+SELECT * FROM Q14;
 
+-- 1.15
+
+SELECT ProductID, ProductName, Price, Weight, Stock, SupplierID 
+FROM Products
+ORDER BY Stock ASC;
 

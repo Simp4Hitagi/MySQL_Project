@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS FruitMarket;
+-- DROP DATABASE IF EXISTS FruitMarket;
 -- 1.1
 CREATE DATABASE FruitMarket;
 USE FruitMarket;
@@ -94,8 +94,22 @@ WHERE User IN ('Deno_R', 'root');
 SELECT * FROM Q14;
 
 -- 1.15
+-- DROP VIEW IF EXISTS Qproducts;
+-- CREATE VIEW Qproducts AS
+-- SELECT ProductID, ProductName, Price, Weight, Stock, SupplierID 
+-- FROM Products
+-- ORDER BY Stock ASC;
+-- DELETE FROM Products
+-- WHERE ProductID IN (1002, 3003, 2002, 1004);
+-- SELECT * 
+-- FROM Qproducts;
 
-SELECT ProductID, ProductName, Price, Weight, Stock, SupplierID 
-FROM Products
-ORDER BY Stock ASC;
+-- 1.16
 
+-- DROP VIEW IF EXISTS Q1_16;
+CREATE VIEW Q1_16 AS
+SELECT s.CompanyName, s.ContactNo, p.ProductName, p.Price
+FROM Suppliers s
+INNER JOIN Products p
+USING(SupplierID);
+SELECT * FROM Q1_16;

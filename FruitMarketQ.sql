@@ -1,4 +1,4 @@
--- DROP DATABASE IF EXISTS FruitMarket;
+DROP DATABASE IF EXISTS FruitMarket;
 -- 1.1
 CREATE DATABASE FruitMarket;
 USE FruitMarket;
@@ -47,6 +47,8 @@ VALUES
 (4002, 'Simonzola Blue Cheese', 27.65, '270 g', 4, 'SUPP0004')
 ;
 
+SELECT * FROM Products;
+
 SELECT ProductID, ProductName, CONCAT('R', Price) AS Price, Weight, Stock FROM Products;
 
 -- 1.8
@@ -73,9 +75,9 @@ SELECT * FROM Q9;
 
 -- 1.10
 
-CREATE USER 'Deno_r'@'localhost' IDENTIFIED BY '12345';
-GRANT INSERT, CREATE, SELECT, UPDATE ON FruitMarket.Suppliers TO 'Deno_r'@'localhost';
-FLUSH PRIVILEGES;
+-- CREATE USER 'Deno_r'@'localhost' IDENTIFIED BY '12345';
+-- GRANT INSERT, CREATE, SELECT, UPDATE ON FruitMarket.Suppliers TO 'Deno_r'@'localhost';
+-- FLUSH PRIVILEGES;
 
 -- 1.11
 -- mysql -u deno_r -p 
@@ -95,27 +97,105 @@ SELECT * FROM Q14;
 
 -- 1.15
 -- DROP VIEW IF EXISTS Qproducts;
--- CREATE VIEW Qproducts AS
--- SELECT ProductID, ProductName, Price, Weight, Stock, SupplierID 
--- FROM Products
--- ORDER BY Stock ASC;
--- DELETE FROM Products
--- WHERE ProductID IN (1002, 3003, 2002, 1004);
--- SELECT * 
--- FROM Qproducts;
+CREATE VIEW Qproducts AS
+SELECT ProductID, ProductName, Price, Weight, Stock, SupplierID 
+FROM Products
+WHERE ProductID IN (1002, 3003, 2002, 1004)
+ORDER BY Stock ASC;
+SELECT * 
+FROM Qproducts;
 
 -- 1.16
 
 -- DROP VIEW IF EXISTS Q1_16;
 
--- INSERT INTO Suppliers(CompanyName, ContactNo)VALUES('Fruit City', 0115062089);
--- INSERT INTO Products(ProductName, Price)VALUES('Pink Lady Apples', 18.95);
-
 CREATE VIEW Q1_16 AS
 SELECT s.CompanyName, s.ContactNo, p.ProductName, p.Price
 FROM Suppliers s
-INNER JOIN Products p
+RIGHT JOIN Products p
 USING(SupplierID);
 SELECT * FROM Q1_16;
 
+-- 1.17
+DROP TABLE IF EXISTS Q1_17;
+CREATE VIEW Q1_17 AS 
+SELECT SUM(Price) AS Total_unit_price,
+ROUND(AVG(Price),2) AS  Average_price,
+COUNT(ProductID) AS NumbeR_of_products
+FROM Products;
+SELECT * FROM Q1_17;
 
+-- 1.18
+DROP VIEW IF EXISTS Q1_18;
+CREATE VIEW Q1_18 AS
+SELECT DISTINCT SupplierID
+FROM Products;
+SELECT * FROM Q1_18;
+
+-- 1.19
+DROP VIEW IF EXISTS Q1_18;
+CREATE VIEW Q1_18 AS
+SELECT COUNT(ProductID) AS 'Count(ProductID)', SupplierID
+FROM Products
+GROUP BY SupplierID;
+SELECT * FROM Q1_18;
+
+-- 1.20
+CREATE VIEW Q1_20 AS
+SELECT COUNT(ProductID) AS 'Count(ProductID)', SupplierID, 
+SUM(Price*Stock) AS 'SUM(Price*Stock)'
+FROM Products
+GROUP BY SupplierID;
+SELECT * FROM Q1_20;
+
+-- 1.21
+
+UPDATE Products
+SET Price = 15.95, 
+Weight = '1 kg', 
+Stock = 18
+WHERE ProductID IN (1004);
+
+SELECT ProductID, ProductName, Price, Weight, Stock, SupplierID 
+FROM Products
+WHERE ProductID IN (1004);
+
+-- 1.26
+ALTER TABLE Products RENAME TO Products_Deno;
+ALTER TABLE Suppliers RENAME TO Suppliers_Deno;
+RENAME TABLE Qproducts TO Q1_15;
+
+ALTER TABLE `Products_Deno` CHANGE COLUMN `ProductID` `ProductID` VARCHAR(10) NOT NULL;
+ALTER TABLE `Products_Deno` CHANGE COLUMN `Weight` `Weight` VARCHAR(15);
+ALTER TABLE `Products_Deno` CHANGE COLUMN `Stock` `Stock` INT;
+ALTER TABLE Products_Deno RENAME COLUMN ColumnName TO Columnname;
+ALTER TABLE Products_Deno RENAME COLUMN Stock TO stock;
+
+-- 1.27
+
+-- UPDATE Products_Deno
+-- SET Price = 12.36
+-- WHERE ProductID = 1004;
+
+SELECT ProductID, ProductName, Price, Weight, Stock, SupplierID 
+FROM Products_Deno
+WHERE ProductID IN (4001, 1004, 2002, 1002)
+ORDER BY Stock DESC;
+
+-- 1.28
+
+-- CREATE VIEW Q1_28 AS
+-- SELECT  SupplierID AS 'supplierid', Prices AS 'prices',
+-- CONCAT(DISTINCT ProdctName) AS 'group_concat(distinct productName)'
+-- FROM Products_Deno
+-- GROUP BY ProductName;
+-- SELECT * FROM Q1_28;
+
+-- DROP VIEW IF EXISTS Q1_28;
+
+CREATE VIEW Q1_28 AS
+SELECT SupplierID AS 'supplierid', SUM(Prices) AS 'prices',
+GROUP_CONCAT(ProductName) AS 'group_concat(productName)'
+FROM Products_Deno
+GROUP BY SupplierID;
+SELECT * FROM Q1_28;

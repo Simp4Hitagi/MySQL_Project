@@ -133,12 +133,12 @@ FROM Products;
 SELECT * FROM Q1_18;
 
 -- 1.19
-DROP VIEW IF EXISTS Q1_18;
-CREATE VIEW Q1_18 AS
+DROP VIEW IF EXISTS Q1_19;
+CREATE VIEW Q1_19 AS
 SELECT COUNT(ProductID) AS 'Count(ProductID)', SupplierID
 FROM Products
 GROUP BY SupplierID;
-SELECT * FROM Q1_18;
+SELECT * FROM Q1_19;
 
 -- 1.20
 CREATE VIEW Q1_20 AS
@@ -188,7 +188,7 @@ ORDER BY Stock DESC;
 -- SELECT  SupplierID AS 'supplierid', Prices AS 'prices',
 -- CONCAT(DISTINCT ProdctName) AS 'group_concat(distinct productName)'
 -- FROM Products_Deno
--- GROUP BY ProductName;
+-- GROUP BY ProductName; 
 -- SELECT * FROM Q1_28;
 
 -- DROP VIEW IF EXISTS Q1_28;
